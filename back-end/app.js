@@ -3,6 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
+
+// connect to the database
+mongoose.connect('mongodb://localhost:27017/feynman', {
+  useNewUrlParser: true
+});
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
