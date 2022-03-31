@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var Article = require('../models/Article');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,6 +21,8 @@ router.post('/', (req, res, next) => {
     }
     res.json(article);
   });
+  console.log(article);
+  res.sendStatus(200);
 });
 
 module.exports = router;
