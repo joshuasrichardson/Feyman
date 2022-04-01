@@ -2,6 +2,7 @@
 <div id="app">
 	<div id="nav">
 		<router-link to="/">Home</router-link>
+		<router-link to="/browse">Browse</router-link>
 		<router-link v-if="user == null" to="/login">Login</router-link>
 		<router-link v-if="user == null" to="/register">Register</router-link>
 		<router-link v-if="user != null" to="/login" @click.native="logout()">Logout</router-link>

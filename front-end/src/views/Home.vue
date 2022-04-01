@@ -7,11 +7,11 @@
 		<h2>Tough reading assignment? We can help.</h2>
 	</div>
 	<div class="article-entry">
-		<form class="article-entry-form">
+		<form class="article-entry-form" @submit.prevent="submitText">
 			<input type="text" placeholder="Title" v-model="title">
 			<input type="text" placeholder="Author" v-model="author">
 			<textarea placeholder="Paste article here..." rows="45" cols="90" v-model="text"></textarea>
-			<input type="submit" @submit.prevent="submitText" />
+			<input type="submit" />
 		</form>
 	</div>
 </div>
@@ -30,11 +30,15 @@ export default {
 	},
 	methods: {
 		async submitText() {
-			await axios.post('/', {  //FIXME throwing 404 error
-				title: this.title,
-				author: this.author,
-				text: this.text,
-			});
+			try {
+				await axios.post('/api/articles', {
+					title: this.title,
+					author: this.author,
+					text: this.text,
+				});
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	}
 };
