@@ -36,6 +36,9 @@ export default {
 					author: this.author,
 					text: this.text,
 				});
+				this.title = "";
+				this.author = "";
+				this.text = "";
 			} catch (error) {
 				console.log(error);
 			}

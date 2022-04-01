@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Browse from "../views/Browse.vue";
+import Article from "../views/Article.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/browse",
     name: "Browse",
     component: Browse,
+  },
+  {
+    path: "/article/:id",
+    name: "Article",
+    component: Article,
   },
 ];
 

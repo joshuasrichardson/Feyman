@@ -1,9 +1,10 @@
 <template>
 <div class="page">
 	<h1>Browse</h1>
-	<div class="article" v-for="article in articles" :key="article._id">
+	<div class="article" v-for="article in articles" :key="article._id" @click="viewArticle(article._id)">
 		<h2>{{article.title}}</h2>
 		<h3>{{article.author}}</h3>
+		<p class="date"><em>{{formatDate(article.created)}}</em></p>
 		<p>{{getFirstPart(article.text)}}</p>
 	</div>
 </div>
@@ -11,6 +12,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
 	name: "Browse",
@@ -32,12 +34,20 @@ export default {
 				this.error = error.response.data.message;
 			}
 		},
+		viewArticle(id) {
+			this.$router.push({
+				path: '/article/' + id,
+			});
+		},
 		getFirstPart(text) {
 			if (text.length < 300) {
 				return text;
 			}
 			return text.substring(0, 300) + "...";
-		}
+		},
+		formatDate(date) {
+			return moment(date).format('d MMMM, YYYY');
+		},
 	},
 };
 </script>
@@ -50,26 +60,27 @@ export default {
 	align-items: center;
 }
 
-.login {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+.article {
+	border: solid 1px black;
+	margin: 10px;
 }
 
-.loginButton {
-	align-self: center;
+.article:hover {
+	background-color: #999999;
 }
 
-.row {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
+p {
+	text-align: left;
+	margin: 20px;
 }
 
-label,
-input {
-	margin: 8px;
+p.date {
+	margin: -10px -10px -10px 20px;
 }
 
-@media (min-width: 800px) {}
+@media (min-width: 800px) {
+	.article {
+		width: 70%;
+	}
+}
 </style>
