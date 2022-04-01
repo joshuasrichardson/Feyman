@@ -15,6 +15,12 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    props: { hasAccount: true },
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Login,
   },
 ];
 
