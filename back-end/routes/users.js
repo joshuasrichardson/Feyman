@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   username: String,
   password: String,
+  savedArticles: {
+    type: Array,
+    default: [],
+  },
 });
 
 // This is a hook that will be called before a user record is saved,
@@ -174,6 +178,33 @@ router.post('/login', async (req, res) => {
       user: user
     });
 
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// Add the article id to a list of articles the user has saved.
+router.put('/:articleId', validUser, async (req, res) => {
+  try {
+    // If they are trying to remove the article and it exists, remove it.
+    if (req.body.remove && req.user.savedArticles.includes(req.params.articleId)) {
+      await User.updateOne(
+          { _id: req.user._id },
+          { $pull: { savedArticles: req.params.articleId }},
+      );
+    }
+    // Else if they haven't already saved it, save it.
+    else if (!req.user.savedArticles.includes(req.params.articleId)) {
+      await User.updateOne(
+          { _id: req.user._id },
+          { $push: { savedArticles: req.params.articleId }},
+      );
+    }
+    req.user = await User.findOne({ _id: req.user._id });
+    res.send({
+      user: req.user
+    });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

@@ -1,11 +1,21 @@
 <template>
 <div class="page">
 	<h1>Browse</h1>
-	<div class="article" v-for="article in articles" :key="article._id" @click="viewArticle(article._id)">
-		<h2>{{article.title}}</h2>
-		<h3>{{article.author}}</h3>
-		<p class="date"><em>{{formatDate(article.created)}}</em></p>
-		<p>{{getFirstPart(article.text)}}</p>
+	<input type="search" name="searchBar" v-model="query" placeholder="Search">
+	<div v-if="user !== null">
+		<label for="showMineOnly">Only show my saved articles</label>
+		<input type="checkbox" name="showMineOnly" v-model="mineOnly">
+	</div>
+	{{error}}
+	<div class="article" v-for="article in articles" :key="article._id">
+		<button v-if="shouldShowSave(article._id)" type="button" name="save" @click="saveArticle(article._id)">Save</button>
+		<button v-if="shouldShowUnsave(article._id)" type="button" name="unsave" @click="unsaveArticle(article._id)">Saved &#x2714;</button>
+		<div @click="viewArticle(article._id)">
+			<h2>{{article.title}}</h2>
+			<h3>{{article.author}}</h3>
+			<p class="date"><em>{{formatDate(article.created)}}</em></p>
+			<p>{{getFirstPart(article.text)}}</p>
+		</div>
 	</div>
 </div>
 </template>
@@ -18,20 +28,56 @@ export default {
 	name: "Browse",
 	data() {
 		return {
-			articles: [],
+			allArticles: [],
+			savedArticles: [],
+			mineOnly: false,
+			query: '',
 		}
 	},
-	created() {
-		this.getAllArticles();
+	async created() {
+		await this.getAllArticles();
+		this.getSavedArticles();
 	},
 	methods: {
 		async getAllArticles() {
 			try {
 				this.error = '';
 				let response = await axios.get('/api/articles/all');
-				this.articles = response.data;
+				this.allArticles = response.data;
 			} catch (error) {
 				this.error = error.response.data.message;
+			}
+		},
+		async saveArticle(articleId) {
+			try {
+				let response = await axios.put('/api/users/' + articleId);
+				this.$root.$data.user = response.data.user;
+				await this.getSavedArticles();
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async unsaveArticle(articleId) {
+			try {
+				let response = await axios.put('/api/users/' + articleId, {
+					remove: true
+				});
+				this.$root.$data.user = response.data.user;
+				await this.getSavedArticles();
+			} catch (error) {
+				console.log(error);
+			}
+		},
+		async getSavedArticles() {
+			console.log("Getting saved articles");
+			try {
+				this.savedArticles = this.allArticles.filter(article => {
+					if (this.user.savedArticles.includes(article._id)) {
+						return article;
+					}
+				});
+			} catch (error) {
+				console.log(error);
 			}
 		},
 		viewArticle(id) {
@@ -48,7 +94,33 @@ export default {
 		formatDate(date) {
 			return moment(date).format('d MMMM, YYYY');
 		},
+		shouldShowSave(articleId) {
+			return this.user !== null && !this.user.savedArticles.includes(articleId);
+		},
+		shouldShowUnsave(articleId) {
+			return this.user !== null && this.user.savedArticles.includes(articleId);
+		},
 	},
+	computed: {
+		user() {
+			return this.$root.$data.user;
+		},
+		articles() {
+			let articles = this.allArticles;
+			if (this.mineOnly) {
+				articles = this.savedArticles;
+			}
+			if (this.query !== '') {
+				articles = articles.filter(article => {
+					if (article.title.toLowerCase().includes(this.query.toLowerCase()) ||
+						article.author.toLowerCase().includes(this.query.toLowerCase())) {
+						return article;
+					}
+				});
+			}
+			return articles;
+		}
+	}
 };
 </script>
 
