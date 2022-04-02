@@ -7,9 +7,13 @@
 			{{ word.token }}
 		</button>
 	</div>
+	<h3>Definitions</h3>
 	<div class="definition-list" v-for="key in keywords" :key="key._id">
-		<li>{{key.token + ": " + key.def}}</li>
+			<li><strong>{{key.token}}</strong>: {{key.def}}</li>
 	</div>
+</div>
+<div class="no-article" v-else>
+	<p>No article to display. Select an article from the 'Browse' page.</p>
 </div>
 </template>
 
@@ -115,7 +119,7 @@ export default {
 				return;
 			}
 			let def = await this.fetchDef(copy);
-			word.def = def;
+			def ? word.def = def : word.def = "Sorry, we couldn't find a definition..."
 			word.class = "text-token highlighted";
 			console.log(copy + " added");
 			//this.keywords.push({_id: word._id, word: copy, definition: def});
@@ -133,29 +137,34 @@ export default {
 	min-height: 80vh;
 	margin: 0 10px 10px 10px;
 }
-
 .text {
 	display: flex;
 	flex-wrap: wrap;
 }
-
 .text-token {
 	border-style: none;
 	font-size: 20px;
 }
-
 .highlighted {
 	background-color: yellow;
 }
-
 .text-token:hover {
 	background-color: rgba(0, 0, 0, 0.3);
 }
-
+.no-article {
+	height: 85vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .definition-list {
 	text-align: left;
+	border: solid 1px black;
+	font-size: 20px;
+	list-style: none;
+	margin-top: 5px;
+	padding-left: 5px;
 }
-
 @media (min-width: 800px) {
 	.article-view {
 		margin: 0 100px 20px 100px;
