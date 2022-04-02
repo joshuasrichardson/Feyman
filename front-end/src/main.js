@@ -6,6 +6,7 @@ Vue.config.productionTip = false;
 
 let data = {
   user: null,
+  articleId: "",
 };
 
 new Vue({
