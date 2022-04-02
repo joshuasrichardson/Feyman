@@ -18,6 +18,7 @@
 	<router-view />
 	<footer>
 		<a href="https://github.com/joshuasrichardson/Feyman">Github Repo</a>
+		<p>I worked with Brady Richardson</p>
 	</footer>
 </div>
 </template>
@@ -71,10 +72,11 @@ export default {
 
 footer {
 	width: 100%;
-	height: 40px;
+	height: 60px;
 	background-color: #DDF8F4;
 	margin-top: 20px;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
