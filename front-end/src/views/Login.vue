@@ -83,6 +83,7 @@ export default {
 .login {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: flex-start;
 }
 
@@ -91,14 +92,17 @@ export default {
 }
 
 .row {
-	display: flex;
-	justify-content: space-between;
 	width: 100%;
+	margin-left: 4px;
 }
 
 label,
 input {
 	margin: 8px;
+}
+
+input {
+	width: 100%;
 }
 
 @media (min-width: 800px) {}
