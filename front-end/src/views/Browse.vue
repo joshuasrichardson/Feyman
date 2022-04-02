@@ -8,8 +8,11 @@
 	</div>
 	{{error}}
 	<div class="article" v-for="article in articles" :key="article._id">
-		<button v-if="shouldShowSave(article._id)" type="button" class="save" name="save" @click="saveArticle(article._id)">Save</button>
-		<button v-if="shouldShowUnsave(article._id)" type="button" class="save" name="unsave" @click="unsaveArticle(article._id)">Saved &#x2714;</button>
+		<div class="buttons">
+			<button v-if="shouldShowSave(article._id)" type="button" class="save" name="save" @click="saveArticle(article._id)">Save</button>
+			<button v-if="shouldShowUnsave(article._id)" type="button" class="save" name="unsave" @click="unsaveArticle(article._id)">Saved &#x2714;</button>
+			<button v-if="isMine(article._id)" type="button" class="delete" name="delete" @click="deleteArticle(article._id)">&#x1f5d1;</button>
+		</div>
 		<div @click="viewArticle(article._id)">
 			<h2>{{article.title}}</h2>
 			<h3>{{article.author}}</h3>
@@ -68,6 +71,16 @@ export default {
 				console.log(error);
 			}
 		},
+		async deleteArticle(articleId) {
+			try {
+				await axios.delete('/api/articles/' + articleId);
+				console.log("deleted");
+				await this.unsaveArticle(articleId);
+				await this.getAllArticles();
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		async getSavedArticles() {
 			console.log("Getting saved articles");
 			try {
@@ -79,6 +92,12 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		isMine(id) {
+			let article = this.allArticles.find(item => item._id === id);
+			console.log("article:", article);
+			console.log("user:", this.user);
+			return article !== null && this.user !== null && article.user === this.user._id;
 		},
 		viewArticle(id) {
 			this.$root.$data.articleId = id;
@@ -131,6 +150,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	min-height: 80vh;
 }
 
 h1 {
@@ -167,6 +187,10 @@ input[type="checkbox"] {
 	background-color: #999999;
 }
 
+h2 {
+	margin-top: 0;
+}
+
 p {
 	text-align: left;
 	margin: 20px;
@@ -176,9 +200,17 @@ p.date {
 	margin: -10px -10px -10px 20px;
 }
 
+.buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
 .save {
-	align-self: flex-end;
-	margin: 10px 10px -20px 0;
+	margin: 10px 0 0 10px;
+}
+
+.delete {
+	margin: 10px 10px 0 0;
 }
 
 @media (min-width: 800px) {
