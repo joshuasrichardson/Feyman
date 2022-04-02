@@ -2,6 +2,7 @@
 <div id="app">
 	<div id="nav">
 		<router-link to="/">Home</router-link>
+		<router-link to="/browse">Browse</router-link>
 		<router-link v-if="user == null" to="/login">Login</router-link>
 		<router-link v-if="user == null" to="/register">Register</router-link>
 		<router-link v-if="user != null" to="/login" @click.native="logout()">Logout</router-link>
@@ -15,6 +16,17 @@ import axios from 'axios';
 
 export default {
 	name: "App",
+	async created() {
+		// Check to see if a cookie is storing the logged in user.
+		// If it is, set that user as the logged in user.
+		// This makes it so the user won't be logged out when they refresh the page or something.
+		try {
+			let response = await axios.get('/api/users');
+			this.$root.$data.user = response.data.user;
+		} catch (error) {
+			this.$root.$data.user = null;
+		}
+	},
 	computed: {
 		user() {
 			return this.$root.$data.user;

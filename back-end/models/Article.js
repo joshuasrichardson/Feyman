@@ -4,6 +4,12 @@ const ArticleSchema = new mongoose.Schema({
   title: String,
   author: String,
   text: String,
+  created: {
+    type: Date,
+    default: Date.now
+  },
 });
 
-mongoose.model('Articles', ArticleSchema);
+const Article = mongoose.model('Articles', ArticleSchema);
+
+module.exports = Article;

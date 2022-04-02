@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost:27017/feynman', {
 });
 
 
-var indexRouter = require('./routes/index');
+var articles = require('./routes/articles');
 var users = require('./routes/users');
 
 var app = express();
@@ -37,7 +37,7 @@ app.use(cookieSession({
   }
 }));
 
-app.use('/', indexRouter);
+app.use('/api/articles', articles.routes);
 app.use('/api/users', users.routes);
 
 // catch 404 and forward to error handler
