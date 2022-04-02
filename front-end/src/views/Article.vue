@@ -1,12 +1,14 @@
 <template>
 <div class="article-view" v-if="article">
-	<h1>{{ this.article.data[0].title }}</h1>
-	<h2>{{ this.article.data[0].author }}</h2>
+	<p>Tip: To see a word's definition, <strong>select it</strong> and <strong>hover over it</strong>, or scroll to the bottom of the page.</p>
+	<h1><em>{{ this.article.data[0].title }}</em></h1>
+	<h4>{{ this.article.data[0].author }}</h4>
 	<div class="text">
 		<button :title="word.def" :class="word.class" v-for="word in this.tokens" :key="word._id" @click="selectKeyword(word)">
 			{{ word.token }}
 		</button>
 	</div>
+	<hr>
 	<h3>Definitions</h3>
 	<div class="definition-list" v-for="key in keywords" :key="key._id">
 			<li><strong>{{key.token}}</strong>: {{key.def}}</li>
@@ -136,6 +138,13 @@ export default {
 .article-view {
 	min-height: 80vh;
 	margin: 0 10px 10px 10px;
+}
+.article-view p {
+	margin-top: 10px;
+	font-size: 17px;
+}
+.article-view h1 {
+	margin-top: 10px;
 }
 .text {
 	display: flex;

@@ -1,7 +1,7 @@
 <template>
 <div class="page">
 	<h1>Browse Articles</h1>
-	<input type="search" name="searchBar" v-model="query" placeholder="Search">
+	<input type="search" name="searchBar" v-model="query" placeholder="Search" style="text-align: center;">
 	<div class="mine" v-if="user !== null">
 		<label for="showMineOnly">Only show my saved articles</label>
 		<input class="check" type="checkbox" name="showMineOnly" v-model="mineOnly">
