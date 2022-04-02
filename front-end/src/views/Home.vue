@@ -27,6 +27,13 @@ export default {
 			text: "",
 		}
 	},
+	created() {
+		if (this.$root.$data.user === null) {
+			this.$router.push({
+				path: '/login'
+			});
+		}
+	},
 	methods: {
 		async submitText() {
 			try {
