@@ -33,6 +33,20 @@ router.get("/all", async (req, res) => {
   }
 });
 
+router.get('/view/:id', async (req, res) => {
+  try {
+    let articleId = req.params.id;
+    console.log(articleId);
+    let article = await Article.find({ _id: articleId });
+    return res.send(article);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+
+});
+
 module.exports = {
   routes: router,
 };

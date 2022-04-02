@@ -81,6 +81,7 @@ export default {
 			}
 		},
 		viewArticle(id) {
+			this.$root.$data.articleId = id;
 			this.$router.push({
 				path: '/article/' + id,
 			});
