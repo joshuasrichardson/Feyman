@@ -78,6 +78,7 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	min-height: 80vh;
 }
 
 .login {
@@ -93,7 +94,7 @@ export default {
 
 .row {
 	width: 100%;
-	margin-left: 4px;
+	margin: 0;
 }
 
 label,
@@ -105,5 +106,9 @@ input {
 	width: 100%;
 }
 
-@media (min-width: 800px) {}
+button {
+	width: 50%;
+	height: 30px;
+	background-color: #AAEEE4;
+}
 </style>

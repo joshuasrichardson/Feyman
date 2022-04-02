@@ -16,6 +16,9 @@
 		</div>
 	</nav>
 	<router-view />
+	<footer>
+		<a href="https://github.com/joshuasrichardson/Feyman">Github Repo</a>
+	</footer>
 </div>
 </template>
 
@@ -60,5 +63,19 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+}
+
+.bg-light {
+	background-color: #BAF2E9 !important;
+}
+
+footer {
+	width: 100%;
+	height: 40px;
+	background-color: #DDF8F4;
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>
