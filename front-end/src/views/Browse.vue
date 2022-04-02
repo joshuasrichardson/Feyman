@@ -1,15 +1,15 @@
 <template>
 <div class="page">
-	<h1>Browse</h1>
+	<h1>Browse Articles</h1>
 	<input type="search" name="searchBar" v-model="query" placeholder="Search">
-	<div v-if="user !== null">
+	<div class="mine" v-if="user !== null">
 		<label for="showMineOnly">Only show my saved articles</label>
-		<input type="checkbox" name="showMineOnly" v-model="mineOnly">
+		<input class="check" type="checkbox" name="showMineOnly" v-model="mineOnly">
 	</div>
 	{{error}}
 	<div class="article" v-for="article in articles" :key="article._id">
-		<button v-if="shouldShowSave(article._id)" type="button" name="save" @click="saveArticle(article._id)">Save</button>
-		<button v-if="shouldShowUnsave(article._id)" type="button" name="unsave" @click="unsaveArticle(article._id)">Saved &#x2714;</button>
+		<button v-if="shouldShowSave(article._id)" type="button" class="save" name="save" @click="saveArticle(article._id)">Save</button>
+		<button v-if="shouldShowUnsave(article._id)" type="button" class="save" name="unsave" @click="unsaveArticle(article._id)">Saved &#x2714;</button>
 		<div @click="viewArticle(article._id)">
 			<h2>{{article.title}}</h2>
 			<h3>{{article.author}}</h3>
@@ -133,9 +133,34 @@ export default {
 	align-items: center;
 }
 
-.article {
-	border: solid 1px black;
+h1 {
 	margin: 10px;
+}
+
+.mine {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+}
+
+input[type="checkbox"] {
+	margin: 8px;
+	border: 0.15em solid currentColor;
+	border-radius: 0.15em;
+	width: 1.15em;
+	height: 1.15em;
+	transform: translateY(-0.2em);
+}
+
+.article {
+	width: 95%;
+	border: solid 1px black;
+	border-radius: 5px;
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
 }
 
 .article:hover {
@@ -151,8 +176,14 @@ p.date {
 	margin: -10px -10px -10px 20px;
 }
 
+.save {
+	align-self: flex-end;
+	margin: 10px 10px -20px 0;
+}
+
 @media (min-width: 800px) {
 	.article {
+		min-width: 70%;
 		width: 70%;
 	}
 }

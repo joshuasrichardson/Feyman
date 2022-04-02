@@ -1,13 +1,24 @@
 <template>
 <div id="app">
-	<div id="nav">
-		<router-link to="/">Home</router-link>
-		<router-link to="/browse">Browse</router-link>
-		<router-link v-if="user == null" to="/login">Login</router-link>
-		<router-link v-if="user == null" to="/register">Register</router-link>
-		<router-link v-if="user != null" to="/login" @click.native="logout()">Logout</router-link>
-	</div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<router-link class="navbar-brand" to="/">Feyman</router-link>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<router-link class="nav-item nav-link" to="/">Home</router-link>
+				<router-link class="nav-item nav-link" to="/browse">Browse</router-link>
+				<router-link class="nav-item nav-link" v-if="user == null" to="/login">Login</router-link>
+				<router-link class="nav-item nav-link" v-if="user == null" to="/register">Register</router-link>
+				<router-link class="nav-item nav-link" v-if="user != null" to="/login" @click.native="logout()">Logout</router-link>
+			</div>
+		</div>
+	</nav>
 	<router-view />
+	<footer>
+		<a href="https://github.com/joshuasrichardson/Feyman">Github Repo</a>
+	</footer>
 </div>
 </template>
 
@@ -54,20 +65,17 @@ export default {
 	color: #2c3e50;
 }
 
-#nav {
-	padding: 30px;
+.bg-light {
+	background-color: #BAF2E9 !important;
 }
 
-#nav a {
-	font-weight: bold;
-	color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-	color: #42b983;
-}
-
-a {
-	padding: 5px;
+footer {
+	width: 100%;
+	height: 40px;
+	background-color: #DDF8F4;
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

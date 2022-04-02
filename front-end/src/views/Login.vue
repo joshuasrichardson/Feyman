@@ -78,11 +78,13 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	min-height: 80vh;
 }
 
 .login {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: flex-start;
 }
 
@@ -91,9 +93,8 @@ export default {
 }
 
 .row {
-	display: flex;
-	justify-content: space-between;
 	width: 100%;
+	margin: 0;
 }
 
 label,
@@ -101,5 +102,13 @@ input {
 	margin: 8px;
 }
 
-@media (min-width: 800px) {}
+input {
+	width: 100%;
+}
+
+button {
+	width: 50%;
+	height: 30px;
+	background-color: #AAEEE4;
+}
 </style>

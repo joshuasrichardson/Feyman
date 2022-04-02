@@ -1,18 +1,16 @@
 <template>
-  <div>
-		<div class="article-view" v-if="article">
-			<h1>{{ this.article.data[0].title }}</h1>
-				<h2>{{ this.article.data[0].author }}</h2>
-			<div class="text">
-				<button :title="word.def" :class="word.class" v-for="word in this.tokens" :key="word._id" @click="selectKeyword(word)">
-					{{ word.token }}
-				</button>
-			</div>
-			<div class="definition-list" v-for="key in keywords" :key="key._id">
-				<li>{{key.token + ": " + key.def}}</li>
-			</div>
-		</div>
-  </div>
+<div class="article-view" v-if="article">
+	<h1>{{ this.article.data[0].title }}</h1>
+	<h2>{{ this.article.data[0].author }}</h2>
+	<div class="text">
+		<button :title="word.def" :class="word.class" v-for="word in this.tokens" :key="word._id" @click="selectKeyword(word)">
+			{{ word.token }}
+		</button>
+	</div>
+	<div class="definition-list" v-for="key in keywords" :key="key._id">
+		<li>{{key.token + ": " + key.def}}</li>
+	</div>
+</div>
 </template>
 
 <script>
@@ -57,9 +55,21 @@ export default {
 			}
 			if (splitTokens) {
 				//console.log(splitTokens);
-				this.tokens.push({_id: this.count, token: splitTokens[0], class: "text-token", def: "", selected: false});
+				this.tokens.push({
+					_id: this.count,
+					token: splitTokens[0],
+					class: "text-token",
+					def: "",
+					selected: false
+				});
 				this.count++;
-				this.tokens.push({_id: this.count, token: splitTokens[1], class: "text-token", def: "", selected: false});
+				this.tokens.push({
+					_id: this.count,
+					token: splitTokens[1],
+					class: "text-token",
+					def: "",
+					selected: false
+				});
 				this.count++;
 				return true;
 			}
@@ -77,7 +87,13 @@ export default {
 					if (this.splitWords(word)) {
 						continue;
 					}
-					this.tokens.push({_id: this.count, token: word, class: "text-token", def: "", selected: false});
+					this.tokens.push({
+						_id: this.count,
+						token: word,
+						class: "text-token",
+						def: "",
+						selected: false
+					});
 					this.count++;
 				}
 			} catch (err) {
@@ -113,21 +129,36 @@ export default {
 };
 </script>
 <style scoped>
-	.text {
-		display: flex;
-		flex-wrap: wrap;
+.article-view {
+	min-height: 80vh;
+	margin: 0 10px 10px 10px;
+}
+
+.text {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.text-token {
+	border-style: none;
+	font-size: 20px;
+}
+
+.highlighted {
+	background-color: yellow;
+}
+
+.text-token:hover {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.definition-list {
+	text-align: left;
+}
+
+@media (min-width: 800px) {
+	.article-view {
+		margin: 0 100px 20px 100px;
 	}
-	.text-token {
-		border-style: none;
-		font-size: 20px;
-	}
-	.highlighted {
-		background-color: yellow;
-	}
-	.text-token:hover {
-		background-color: rgba(0,0,0,0.3);
-	}
-	.definition-list {
-		text-align: left;
-	}
+}
 </style>
